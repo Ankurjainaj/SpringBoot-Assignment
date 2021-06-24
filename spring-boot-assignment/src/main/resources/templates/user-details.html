@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+    <style type="text/css">
+    label {
+        display: inline-block;
+        width: 200px;
+        margin: 5px;
+        text-align: left;
+    }
+    input[type=radio] {
+        display: inline-block;
+        margin-left: 45px;
+    }
+    input[type=checkbox] {
+        display: inline-block;
+        margin-right: 190px;
+    }  
+     
+    button {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+</head>
+<body>
+<div>
+<h1 align="center">User Details Form</h1></div>
+<div>
+    <form action="addUser" method="post" modelAttribute="user" enctype="multipart/form-data" style="max-width: 600px; margin: 0 auto;">
+        <label for="name">Full name</label>
+        <input id="name" name="name" placeholder="Enter Name"/><br/>
+        
+        <label for="email">Email</label>
+        <input id="email" name="email" placeholder="Enter Email"/><br/>
+        
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" placeholder="Enter Phone number"/><br/>
+        
+        <label for="state">State</label>
+        <input id="state" name="state" placeholder="Enter State"/><br/>
+        <!--<select id="state" items="${stateList}" name="state" placeholder="Enter State"/><br/>-->
+        
+        <label for="gender">Gender</label>
+        <input type="radio" id="male" name="gender" value="male">Male
+        <input type="radio" id="female" name="gender" value="female">Female<br/>
+
+        <!--<label for="skills">Skills:</label>><br/>
+        <input type="checkbox" id="java" name="java" value="Java"><label for="java"> Java</label>
+  		<input type="checkbox" id="Spring boot" name="Spring boot" value="Spring Boot"><label for="java"> Spring Boot</label>
+  		<input type="checkbox" id="dsa" name="dsa" value="DSA"><label for="java">DSA</label>
+  		<input type="checkbox" id="javascript" name="javascript" value="Javascript"><label for="javascript"> Javascript</label>
+  		<input type="checkbox" id="MySQL" name="MySQL" value="MySQL"><label for="MySQL">MySQL</label>
+  		-->
+  		<p>Skills</p>
+        <select name="skills" multiple="multiple">
+            <option value="Java" >Java</option>
+            <option value="Spring Boot" >Spring Boot</option>
+            <option value="DSA">DSA</option>
+            <option value="Javascript" >Javascript</option>
+            <option value="MySql" >MySql</option>
+        </select>
+  		<br/>
+  		
+        <label>Photos: </label>
+        <input type="file" name="image" accept="image/png, image/jpeg" />
+        <br/>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</body>
+</html>

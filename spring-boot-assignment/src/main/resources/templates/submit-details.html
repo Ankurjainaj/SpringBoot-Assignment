@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation page</title>
+</head>
+<body>
+<div align="center">
+        <h1>User details successfully saved in the database</h1>
+        <h2><p th:text="'Full name: '+${user.name}"/></p></h2>
+        <h2><p th:text="'E-mail: '+${user.email}"/></p></h2>
+        <h2><p th:text="'Phone: '+${user.phone}"/></p></h2>
+        <h2><p th:text="'State: '+${user.state}"/></p></h2>
+        <h2><p th:text="'Gender: '+${user.gender}"/></p></h2>
+        <h2><p th:text="'Skills: '+${userandSkills}"></p></h2>
+        <h2><p> Profile image:<img th:src="${image}"/></p></h2>
+    </div>
+    <h2>Click the following button to update/edit user information</h2>
+    <form action="/updateUser" method="post">
+        <input type="hidden" name="email" th:value="${userandSkills.email}"/>
+        <button type="submit">Update</button>
+    </form>
+
+</body>
+</html>
