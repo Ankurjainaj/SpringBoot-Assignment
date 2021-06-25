@@ -45,7 +45,17 @@
         <input id="phone" name="phone" placeholder="Enter Phone number" th:value="${user.phone}"/><br/>
         
         <label for="state">State</label>
-        <input id="state" name="state" placeholder="Enter State" th:value="${user.state}"/><br/>
+      <!--  <input id="state" name="state" placeholder="Enter State" th:value="${user.state}"/><br/>
+        --><select id="state" name = "state" th:value="${user.state}"required/>
+        <option selected value="">Choose State</option>
+	    <option value="Uttar Pradesh">Uttar Pradesh</option>
+	    <option value="Delhi">Delhi</option>
+	    <option value="Uttrakhand">Uttrakhand</option>
+	    <option value="Himachal Pradesh">Himachal Pradesh</option>
+	    <option value="Goa">Goa</option>
+	    <option value="Bihar">Bihar</option>
+	    <option value="Assam">Assam</option>
+        </select><br/>
         
         <label for="gender">Gender</label>
         <div th:switch="${user.gender}">
