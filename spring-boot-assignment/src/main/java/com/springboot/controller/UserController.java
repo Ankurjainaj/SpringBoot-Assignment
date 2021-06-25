@@ -155,8 +155,6 @@ import com.springboot.service.UserService;
 	    {
 	            
 	    try {
-
-	    	//System.out.println(result.toString());
 	    	            if (result.hasErrors()) {
 	    	                System.out.println(result.getErrorCount());
 	    	                throw new Exception(result.toString());
