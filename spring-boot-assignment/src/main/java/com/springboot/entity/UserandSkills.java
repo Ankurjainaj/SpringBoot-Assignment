@@ -1,19 +1,36 @@
 package com.springboot.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import java.util.List;
 
 @Getter
 @Setter
 @ToString
+@Data
 public class UserandSkills {
-    private String name;
+	@NotEmpty
+	@NotNull
+	@Email
     private String email;
+	@NotEmpty
+	@NotNull
+	private String name;
+	@Size(min=10,max=10,message = "Must have 10 digits")
+	@NotEmpty
+	@NotNull
     private String phone;
+	
+	@NotEmpty
+	@NotNull
     private String state;
     private String gender;
     private String photos;

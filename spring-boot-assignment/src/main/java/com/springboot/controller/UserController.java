@@ -15,12 +15,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import com.springboot.entity.User;
 import com.springboot.entity.File;
 import com.springboot.entity.Skills;
@@ -65,27 +71,67 @@ import com.springboot.service.UserService;
 	        byte[] image = Files.readAllBytes(Paths.get(file.getFileDirectory()));
 	        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
 	    }
+	    
+	    @ResponseStatus(HttpStatus.BAD_REQUEST)
+	    @ExceptionHandler(BindException.class)
+	    public ModelAndView handleValidationExceptions(
+	            BindException ex) {
+	        ModelAndView modelAndView = new ModelAndView();
+	        modelAndView.setViewName("user-details");
+	        String err="";
+	        if(ex.hasFieldErrors("name"))
+	        {
+	            err+="Name Field has error\n";
+	        }
+	        if(ex.hasFieldErrors("email"))
+	        {
+	            err+="Email Field has error\n";
+	        }
+	        if(ex.hasFieldErrors("phone"))
+	        {
+	            err+="Phone Field has error\n";
+	        }
+	        if(ex.hasFieldErrors("state"))
+	        {
+	            err+="State Field has error\n";
+	        }
+
+	        modelAndView.addObject("errors",err);
+	        return modelAndView;
+
+	    }
 
 	    @PostMapping("/addUser")
-	    public ModelAndView addUser(@ModelAttribute UserandSkills userandSkills,@ModelAttribute User user, @RequestParam("image") MultipartFile multipartFile, ModelAndView modelAndView)
+	    public ModelAndView addUser(@ModelAttribute UserandSkills userandSkills,@ModelAttribute User user, @RequestParam("image") MultipartFile multipartFile, ModelAndView modelAndView,Errors result)
 	    throws IOException 
 	    {
-	        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-	        for(String skill:userandSkills.getSkills())
-	        {
-	            Skills currSkill=skillService.addSkill(skill,userandSkills.getEmail());
-	            skillService.addSkill(currSkill);
-	        }
-	        modelAndView.addObject("userandSkills",userandSkills);
-	        modelAndView.addObject("user",user);
-	        Files.copy(multipartFile.getInputStream(), Paths.get("/home/extramarks/Documents/workspace-spring-tool-suite/spring-boot-assignment/src/main/resources/static/images"+fileName), StandardCopyOption.REPLACE_EXISTING);
-	        File file=fileService.addFile(fileName,userandSkills.getEmail());
-	        fileService.addFile(file);
-	        userandSkills.setPhotos("http://localhost:8080/getfile/"+String.valueOf(file.getId()));
-	        userService.addUser(userandSkills.getUser());
-	        modelAndView.addObject("image","http://localhost:8080/getfile/"+String.valueOf(file.getId()));
-	        modelAndView.setViewName("submit-details");
-	        return modelAndView;
+	    	try {
+
+	    		          if (result.hasErrors()) {
+	    		              System.out.println(result.getErrorCount());
+	    		               throw new Exception(result.toString());
+	    		            }
+	    		            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+	    		            for (String skill : userandSkills.getSkills()) {
+	    		                Skills currSkill = skillService.addSkill(skill, userandSkills.getEmail());
+	    		                skillService.addSkill(currSkill);
+	    		            }
+	    		            modelAndView.addObject("userandSkills", userandSkills);
+	    		            Files.copy(multipartFile.getInputStream(), Paths.get("/home/extramarks/Documents/workspace-spring-tool-suite/spring-boot-assignment/src/main/resources/static/images" + fileName), StandardCopyOption.REPLACE_EXISTING);
+	    		            File file = fileService.addFile(fileName, userandSkills.getEmail());
+	    		            fileService.addFile(file);
+	    		            userandSkills.setPhotos("http://localhost:8080/getfile/" + String.valueOf(file.getId()));
+	    		            userService.addUser(userandSkills.getUser());
+	    		            modelAndView.addObject("image", "http://localhost:8080/getfile/" + String.valueOf(file.getId()));
+	    		            modelAndView.setViewName("submit-details");
+	    		            return modelAndView;
+	    		        }
+	    		        catch(Throwable e)
+	    		        {
+	    		            modelAndView.setViewName("user-details");
+	    		            modelAndView.addObject("errors", e.toString());
+	    		            return modelAndView;
+	    		        }
 	    }
 
 	    @PostMapping("/updateUser")
@@ -102,28 +148,43 @@ import com.springboot.service.UserService;
 	    }
 
 	    @PostMapping("/updateUserDetails")
-	    public ModelAndView updateUserDetails(@ModelAttribute UserandSkills userandSkills,@ModelAttribute User user
+	    public ModelAndView updateUserDetails( @ModelAttribute @Valid UserandSkills userandSkills
 	            , @RequestParam("oldEmail") String oldEmail
-	            , @RequestParam("updateimage") MultipartFile multipartFile, ModelAndView modelAndView)
-	            throws IOException
+	            , @RequestParam("updateimage") MultipartFile multipartFile, ModelAndView modelAndView
+	            , Errors result)
 	    {
-	        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-	        System.out.println(userandSkills+" "+oldEmail+fileName);
-	        for(String skill:userandSkills.getSkills())
-	        {
-	            Skills currSkill=skillService.addSkill(skill,userandSkills.getEmail());
-	            skillService.updateSkill(oldEmail,currSkill);
-	        }
-	        modelAndView.setViewName("submit-details");
-	        modelAndView.addObject("user",user);
-	        modelAndView.addObject("userandSkills",userandSkills);
-	        Files.copy(multipartFile.getInputStream(), Paths.get("/home/extramarks/Documents/workspace-spring-tool-suite/spring-boot-assignment/src/main/resources/static/images"+fileName), StandardCopyOption.REPLACE_EXISTING);
-	        File file=fileService.addFile(fileName,userandSkills.getEmail());
-	        fileService.updateFile(oldEmail,file);
-	        userandSkills.setPhotos("http://localhost:8080/getfile/"+String.valueOf(file.getId()));
-	        userService.updateUser(oldEmail,userandSkills.getUser());
-	        modelAndView.addObject("image","http://localhost:8080/getfile/"+String.valueOf(file.getId()));
-	        return modelAndView;
-	    }
+	            
+	    try {
+
+	    	//System.out.println(result.toString());
+	    	            if (result.hasErrors()) {
+	    	                System.out.println(result.getErrorCount());
+	    	                throw new Exception(result.toString());
+	    	            }
+	    	        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+	    	        System.out.println(userandSkills+" "+oldEmail+fileName);
+	    	        for(String skill:userandSkills.getSkills())
+	    	        {
+	    	            Skills currSkill=skillService.addSkill(skill,userandSkills.getEmail());
+	    	            skillService.updateSkill(oldEmail,currSkill);
+	    	        }
+	    	        modelAndView.setViewName("submit-details");
+	    	        modelAndView.addObject("userandSkills",userandSkills);
+	    	        Files.copy(multipartFile.getInputStream(), Paths.get("/home/extramarks/Documents/workspace-spring-tool-suite/spring-boot-assignment/src/main/resources/static/images"+fileName), StandardCopyOption.REPLACE_EXISTING);
+	    	        File file=fileService.addFile(fileName,userandSkills.getEmail());
+	    	        fileService.updateFile(oldEmail,file);
+	    	        userandSkills.setPhotos("http://localhost:8080/getfile/"+String.valueOf(file.getId()));
+	    	        userService.updateUser(oldEmail,userandSkills.getUser());
+	    	        modelAndView.addObject("image","http://localhost:8080/getfile/"+String.valueOf(file.getId()));
+	    	        return modelAndView;
+	    	        }
+	    	        catch(Throwable e)
+	    	        {
+	    	            modelAndView.setViewName("user-details");
+	    	            modelAndView.addObject("errors", e.toString());
+	    	            return modelAndView;
+	    	        }
+	    	    }
+
 
 }

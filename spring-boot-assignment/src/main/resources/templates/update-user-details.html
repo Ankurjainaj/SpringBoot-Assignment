@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Edited User Details</title>
-    <style type="text/css">
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+   <!-- <style type="text/css">
     label {
         display: inline-block;
         width: 200px;
@@ -25,6 +25,7 @@
         margin: 10px;
     }
 </style>
+-->
 </head>
 <body>
 <div>
@@ -69,10 +70,11 @@
             <option value="MySql" th:selected="${#lists.contains(allSkills,'MySql')}">MySql</option>
         </select><br/>
 
-        <label>Photos: </label>
-        <input type="file" name="updateimage"  accept="image/png, image/jpeg, image/jpg" />
-        <img th:src="${image}"/></br>
-        
+		<label class="form-label" for="customFile">Photo:</label>
+                <img th:src="${image}" class="img-rounded">
+                
+                <input name="updateimage"  type="file"  class="form-control" id="customFile" accept="image/png, image/jpeg,image/jpg" required/>
+        <br/>
         <button type="submit">Submit</button>
     </form>
 </div>

@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>User Details</title>
-    <style type="text/css">
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+    <!--<style type="text/css">
     label {
         display: inline-block;
         width: 200px;
@@ -24,23 +25,28 @@
         margin: 10px;
     }
 </style>
+-->
 </head>
 <body>
 <div>
 <h1 align="center">User Details Form</h1></div>
 <div>
     <form action="addUser" method="post" modelAttribute="user" enctype="multipart/form-data" style="max-width: 600px; margin: 0 auto;">
+        <div class="alert alert-danger" role="alert">
+                <p th:text="${errors}"></p>
+            </div>
+        
         <label for="name">Full name</label>
-        <input id="name" name="name" placeholder="Enter Name"/><br/>
+        <input id="name" name="name" placeholder="Enter Name"required/><br/>
         
         <label for="email">Email</label>
-        <input id="email" name="email" placeholder="Enter Email"/><br/>
+        <input id="email" name="email" placeholder="Enter Email"required/><br/>
         
         <label for="phone">Phone</label>
-        <input id="phone" name="phone" placeholder="Enter Phone number"/><br/>
+        <input id="phone" name="phone" placeholder="Enter Phone number"required/><br/>
         
         <label for="state">State</label>
-        <input id="state" name="state" placeholder="Enter State"/><br/>
+        <input id="state" name="state" placeholder="Enter State"required/><br/>
         <!--<select id="state" items="${stateList}" name="state" placeholder="Enter State"/><br/>-->
         
         <label for="gender">Gender</label>
@@ -55,7 +61,7 @@
   		<input type="checkbox" id="MySQL" name="MySQL" value="MySQL"><label for="MySQL">MySQL</label>
   		-->
   		<p>Skills</p>
-        <select name="skills" multiple="multiple">
+        <select name="skills" multiple="multiple"required>
             <option value="Java" >Java</option>
             <option value="Spring Boot" >Spring Boot</option>
             <option value="DSA">DSA</option>
@@ -65,7 +71,7 @@
   		<br/>
   		
         <label>Photos: </label>
-        <input type="file" name="image" accept="image/png, image/jpeg" />
+        <input type="file" name="image" accept="image/png, image/jpeg" required/>
         <br/>
         <button type="submit">Submit</button>
     </form>
