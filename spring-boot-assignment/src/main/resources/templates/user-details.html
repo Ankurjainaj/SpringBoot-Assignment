@@ -37,13 +37,13 @@
             </div>
         
         <label for="name">Full name</label>
-        <input id="name" name="name" placeholder="Enter Name"required/><br/>
+        <input id="name" name="name" placeholder="Enter Name" pattern="^[a-zA-Z\s]+$" required/><br/>
         
         <label for="email">Email</label>
-        <input id="email" name="email" placeholder="Enter Email"required/><br/>
+        <input id="email" name="email" placeholder="Enter Email"pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"required/><br/>
         
         <label for="phone">Phone</label>
-        <input id="phone" name="phone" placeholder="Enter Phone number"required/><br/>
+        <input id="phone" name="phone" placeholder="Enter Phone number" pattern="^[0-9]{10}$" minlength="10" maxlength="10" required/><br/>
         
         <label for="state">State</label>
         <select id="state" name = "state"required/>
@@ -71,7 +71,7 @@
   		<input type="checkbox" id="MySQL" name="MySQL" value="MySQL"><label for="MySQL">MySQL</label>
   		-->
   		<p><b>Skills</b></p>
-  		<p><b>P.S. To select more than one skill please press and hold the control button on the keyboard<b><p>
+  		<p><b>P.S. To select more than one skill please use shift or control button on the keyboard<b><p>
         <select name="skills" multiple="multiple"required>
             <option value="Java" >Java</option>
             <option value="Spring Boot" >Spring Boot</option>

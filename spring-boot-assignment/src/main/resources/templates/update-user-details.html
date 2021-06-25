@@ -36,13 +36,13 @@
         <input type="hidden" name="oldEmail" th:value="${user.email}">
         
         <label for="name">Name</label>
-        <input id="name" name="name" placeholder="Enter Name" th:value="${user.name}"/><br/>
+        <input id="name" name="name" placeholder="Enter Name" pattern="^[a-zA-Z\s]+$" th:value="${user.name}"/><br/>
         
         <label for="email">Email</label>
-        <input id="email" name="email" placeholder="Enter Email" th:value="${user.email}"/><br/>
+        <input id="email" name="email" placeholder="Enter Email" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" th:value="${user.email}"/><br/>
         
         <label for="phone">Phone</label>
-        <input id="phone" name="phone" placeholder="Enter Phone number" th:value="${user.phone}"/><br/>
+        <input id="phone" name="phone" placeholder="Enter Phone number"  pattern="^[0-9]{10}$" minlength="10" maxlength="10" th:value="${user.phone}"/><br/>
         
         <label for="state">State</label>
       <!--  <input id="state" name="state" placeholder="Enter State" th:value="${user.state}"/><br/>
