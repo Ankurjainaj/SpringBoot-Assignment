@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.List;
  
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -18,9 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
+//import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
+//import org.springframework.validation.FieldError;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,17 +49,13 @@ import com.springboot.service.UserService;
 	    public String showForm(Model model)
 	    {
 	    	User user = new User();
-//          List<String> stateList = Arrays.asList("Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana",
-//                  "Himachal Pradesh","Jammu and Kashmir","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttarakhand","Uttar Pradesh","West Bengal","Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli","Daman and Diu","Delhi","Lakshadweep","Puducherry");
-//           
-//          model.addAttribute("user", user);
-//          model.addAttribute("state", stateList);
+	    	System.out.println(user);
 	        return "user-details";
 	    }
 
 
 	    @GetMapping("/getfile/{id}")
-	    public ResponseEntity files(@PathVariable("id") int id) throws Exception
+	    public ResponseEntity<?> files(@PathVariable("id") int id) throws Exception
 	    {
 	        File file = fileService.getFileById(id);
 	        if(file==null)
@@ -140,7 +134,7 @@ import com.springboot.service.UserService;
 	        System.out.println(email);
 	        modelAndView.setViewName("update-user-details");
 	        modelAndView.addObject("user",userService.getUserByEmail(email));
-	        modelAndView.addObject("userSkills",skillService.getAllByUserId(email));
+	        modelAndView.addObject("userandSkills",skillService.getAllByUserId(email));
 	        modelAndView.addObject("image",userService.getUserByEmail(email).getPhotos());
 	        System.out.println(skillService.getAllNameByUserId(email));
 	        modelAndView.addObject("allSkills",skillService.getAllNameByUserId(email));

@@ -32,9 +32,15 @@ public class UserandSkills {
 	@NotEmpty
 	@NotNull
     private String state;
-    private String gender;
-    private String photos;
-    private List<String> skills;
+	@NotEmpty
+	@NotNull
+	private String gender;
+	@NotEmpty
+	@NotNull
+	private String photos;
+	@NotEmpty
+	@NotNull
+	private List<String> skills;
 
 
     public String getName() {

@@ -20,8 +20,10 @@ public class User {
 	public User() {
 		
 	}
-	@Id
+	
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private String name;
+    @Id
     private String email;
     private String phone;
     private String state;

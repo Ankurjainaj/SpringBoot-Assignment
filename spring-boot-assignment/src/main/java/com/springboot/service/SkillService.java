@@ -49,6 +49,7 @@ public class SkillService {
     {
         skillDao.deleteByUserId(id);
         Skills s=skillDao.save(newSkill);
+        System.out.println(s);
     }
 
 }

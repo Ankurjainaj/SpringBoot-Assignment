@@ -2,8 +2,8 @@ package com.springboot.entity;
 
 
 import lombok.ToString;
-import org.apache.tomcat.jni.Local;
-import org.springframework.stereotype.Repository;
+//import org.apache.tomcat.jni.Local;
+//import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,6 +20,7 @@ public class File {
     private LocalDateTime deleted_at;
     private LocalDateTime updated_at;
     private String userId;
+    
 	public int getId() {
 		return id;
 	}

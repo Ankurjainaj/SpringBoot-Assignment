@@ -15,6 +15,7 @@ public class Skills{
     private int id;
     private String name;
     private String userId;
+    
 	public int getId() {
 		return id;
 	}

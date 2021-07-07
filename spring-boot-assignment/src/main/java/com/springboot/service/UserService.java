@@ -29,6 +29,7 @@ public class UserService {
     {
         userDao.deleteById(id);
         User u=userDao.save(newUser);
+        System.out.println(u);
     }
 
 }

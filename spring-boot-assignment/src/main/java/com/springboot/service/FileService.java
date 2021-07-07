@@ -57,5 +57,6 @@ public class FileService {
     {
         fileDao.deleteByUserId(id);
         File f=fileDao.save(newFile);
+        System.out.println(f);
     }
 }
